@@ -118,7 +118,7 @@ Edit the prompts in the script to use your preferred language.
 ### Change the voice
 The script uses the Korean voice "Yuna" by default. You can see available voices:
 ```bash
-say -v ?
+say -v '?'
 ```
 
 Then modify the `say -v Yuna` line to use your preferred voice.

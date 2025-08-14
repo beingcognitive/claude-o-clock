@@ -5,7 +5,7 @@
 
 while true; do
     # Get current hour for context
-    hour=$(date +%H)
+    hour=$((10#$(date +%H)))
     
     # Prepare motivational prompt based on time of day
     if [ $hour -ge 5 ] && [ $hour -lt 12 ]; then
@@ -36,10 +36,10 @@ while true; do
     current_second=$(date +%S)
     
     # Calculate seconds since midnight
-    current_total_seconds=$((current_hour * 3600 + current_minute * 60 + current_second))
+    current_total_seconds=$((10#$current_hour * 3600 + 10#$current_minute * 60 + 10#$current_second))
     
     # Calculate next target time (next hour at 01 minute)
-    next_hour=$(((current_hour + 1) % 24))
+    next_hour=$(((10#$current_hour + 1) % 24))
     target_total_seconds=$((next_hour * 3600 + 60))  # 60 seconds = 1 minute past the hour
     
     # If target is in the next day (past midnight)

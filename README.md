@@ -132,7 +132,10 @@ This project demonstrates a simple but powerful Unix pipeline:
 - **Claude Code CLI** for AI-generated content (acts as a smart text generator)
 - **Bash scripting** for scheduling and control flow
 - **macOS `say`** command for text-to-speech (consumes Claude's output)
-- **Time calculations** for precise hourly execution
+- **Smart time calculations** for precise hourly execution without cron
+  - After Claude responds, the script calculates seconds until the next :01
+  - Uses `sleep` with exact duration instead of cron scheduling
+  - No crontab setup needed - just run the script and it handles timing!
 
 ## Why "claude-o-clock"?
 

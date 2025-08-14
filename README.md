@@ -42,6 +42,17 @@ This simple example demonstrates how Claude Code turns AI into a composable Unix
 - [Claude Code](https://github.com/anthropics/claude-code) installed and configured
 - Bash shell
 
+## Quick Start
+
+Want to try it right now? Just run this one-liner:
+
+```bash
+git clone https://github.com/beingcognitive/claude-o-clock.git && \
+cd claude-o-clock && \
+chmod +x claude-o-clock.sh && \
+./claude-o-clock.sh
+```
+
 ## Installation
 
 1. Clone this repository:

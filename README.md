@@ -15,6 +15,17 @@ The messages adapt based on the time of day:
 - **Evening (6pm-10pm)**: Encouraging words as you wrap up
 - **Night (10pm-5am)**: Warm messages for rest and tomorrow
 
+### Bonus: Smart Rate Limit Management
+
+Running claude-o-clock hourly has an unexpected benefit with Claude's rate limits! Since Claude's rate limit resets on a 5-hour rolling window, making regular hourly requests means:
+
+- When you hit your first rate limit during active use, you've been "banking" hourly requests for the past 5 hours
+- Your oldest hourly request (from 5 hours ago) will roll off, freeing up capacity
+- This means you can often continue using Claude within the next hour instead of waiting the full 5 hours!
+- Note: This only helps with the first rate limit hit - subsequent limits still require waiting
+
+Think of it as keeping your rate limit "warm" - you're maintaining a steady baseline of usage that creates a more predictable reset pattern.
+
 ## Claude Code in Unix Pipelines
 
 This project showcases the power of **Claude Code** as a command-line tool that fits perfectly into Unix pipelines:

@@ -84,12 +84,24 @@ Run the script:
 ./claude-o-clock.sh
 ```
 
+Run in quiet mode (text only, no voice):
+```bash
+./claude-o-clock.sh -q
+```
+
 The script will:
 - Give you an immediate motivational message
 - Calculate the exact wait time until the next hour's :01 mark
-- Continue running indefinitely, speaking every hour
+- Continue running indefinitely, speaking every hour (unless in quiet mode)
 
 To stop the script, press `Ctrl+C`.
+
+### Quiet Mode
+The `-q` or `--quiet` flag disables voice output, showing only text in the terminal. This is useful for:
+- Running on non-macOS systems (Linux, WSL)
+- Quiet environments (offices, libraries)
+- Running in the background
+- Testing without audio
 
 ## More Claude Code Pipeline Examples
 

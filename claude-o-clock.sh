@@ -3,6 +3,25 @@
 # This script runs continuously and calls claude at 01 minutes past every hour
 # The output is spoken using the say command in Korean
 
+# Default settings
+QUIET_MODE=false
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -q|--quiet)
+            QUIET_MODE=true
+            echo "Running in quiet mode (text only, no voice)"
+            shift
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Usage: $0 [-q|--quiet]"
+            exit 1
+            ;;
+    esac
+done
+
 while true; do
     # Get current hour for context
     hour=$((10#$(date +%H)))
@@ -27,8 +46,10 @@ while true; do
     # Display the response
     echo "Claude says: $response"
     
-    # Speak the response using Korean voice (Yuna)
-    say -v Yuna "$response"
+    # Speak the response using Korean voice (Yuna) if not in quiet mode
+    if [ "$QUIET_MODE" = false ]; then
+        say -v Yuna "$response"
+    fi
     
     # Get current time
     current_hour=$(date +%H)

@@ -71,6 +71,6 @@ while true; do
     # Calculate wait time
     wait_seconds=$((target_total_seconds - current_total_seconds))
     
-    echo "Waiting $wait_seconds seconds until next run at ${next_hour}:01..."
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] Waiting $wait_seconds seconds until next run at ${next_hour}:01..."
     sleep $wait_seconds
 done

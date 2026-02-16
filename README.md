@@ -1,10 +1,10 @@
 # 🕐 claude-o-clock
 
-A simple bash pipeline that gives you hourly motivational pep talks from Claude, spoken aloud on macOS.
+A simple bash pipeline that gives you motivational pep talks from Claude twice every hour, spoken aloud on macOS.
 
 ## What it does
 
-Every hour at :01, this script:
+Twice every hour (at ~:55 and ~:03 with slight randomness), this script:
 1. Asks Claude for a motivational message in Korean
 2. Displays the response in your terminal
 3. Speaks it aloud using macOS's built-in text-to-speech
@@ -17,7 +17,7 @@ The messages adapt based on the time of day:
 
 ### Bonus: Smart Rate Limit Management
 
-Running claude-o-clock hourly has an unexpected benefit with Claude's rate limits! Since Claude's rate limit resets on a 5-hour rolling window, making regular hourly requests means:
+Running claude-o-clock twice per hour has an unexpected benefit with Claude's rate limits! Since Claude's rate limit resets on a 5-hour rolling window, making regular requests means:
 
 - When you hit your first rate limit during active use, you've been "banking" hourly requests for the past 5 hours
 - Your oldest hourly request (from 5 hours ago) will roll off, freeing up capacity
@@ -91,8 +91,8 @@ Run in quiet mode (text only, no voice):
 
 The script will:
 - Give you an immediate motivational message
-- Calculate the exact wait time until the next hour's :01 mark
-- Continue running indefinitely, speaking every hour (unless in quiet mode)
+- Calculate the wait time until the next target (~:55 or ~:03, with slight randomness)
+- Continue running indefinitely, speaking twice per hour (unless in quiet mode)
 
 To stop the script, press `Ctrl+C`.
 
@@ -136,7 +136,7 @@ say -v '?'
 Then modify the `say -v Yuna` line to use your preferred voice.
 
 ### Adjust the timing
-The script runs at :01 past every hour. To change this, modify the calculation in the script where it sets `target_total_seconds`.
+The script runs twice per hour at ~:55 and ~:03 (with a random jitter of +/- 2 minutes). To change the base times or randomness range, modify the target minute calculations in the scheduling section of the script.
 
 ## How it works
 
@@ -144,14 +144,14 @@ This project demonstrates a simple but powerful Unix pipeline:
 - **Claude Code CLI** for AI-generated content (acts as a smart text generator)
 - **Bash scripting** for scheduling and control flow
 - **macOS `say`** command for text-to-speech (consumes Claude's output)
-- **Smart time calculations** for precise hourly execution without cron
-  - After Claude responds, the script calculates seconds until the next :01
+- **Smart time calculations** for twice-per-hour execution without cron
+  - After Claude responds, the script picks the next target (~:55 or ~:03) with slight randomness
   - Uses `sleep` with exact duration instead of cron scheduling
   - No crontab setup needed - just run the script and it handles timing!
 
 ## Why "claude-o-clock"?
 
-It's a playful combination of "Claude" and "o'clock" - because who doesn't need an AI friend checking in every hour with some encouragement?
+It's a playful combination of "Claude" and "o'clock" - because who doesn't need an AI friend checking in twice every hour with some encouragement?
 
 ## License
 

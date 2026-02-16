@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script runs continuously and calls claude at 01 minutes past every hour
+# This script runs continuously and calls claude twice per hour (~:55 and ~:01)
 # The output is spoken using the say command in Korean
 
 # Default settings
@@ -39,7 +39,7 @@ while true; do
     
     # Display the prompt
     echo "Asking Claude: $prompt"
-    
+
     # Run claude command and capture output
     response=$(claude -p "$prompt")
     
@@ -55,22 +55,32 @@ while true; do
     current_hour=$(date +%H)
     current_minute=$(date +%M)
     current_second=$(date +%S)
-    
+
     # Calculate seconds since midnight
     current_total_seconds=$((10#$current_hour * 3600 + 10#$current_minute * 60 + 10#$current_second))
-    
-    # Calculate next target time (next hour at 01 minute)
-    next_hour=$(((10#$current_hour + 1) % 24))
-    target_total_seconds=$((next_hour * 3600 + 60))  # 60 seconds = 1 minute past the hour
-    
-    # If target is in the next day (past midnight)
-    if [ $target_total_seconds -le $current_total_seconds ]; then
-        target_total_seconds=$((target_total_seconds + 86400))  # Add 24 hours in seconds
+
+    # Calculate next target time (twice per hour: ~:55 and ~:03)
+    current_minute_val=$((10#$current_minute))
+    if [ $current_minute_val -lt 29 ]; then
+        # Next target is ~:55 of current hour (range: :53-:57)
+        target_hour=$((10#$current_hour))
+        target_minute=$((53 + RANDOM % 5))
+    else
+        # Next target is ~:03 of next hour (range: :01-:05)
+        target_hour=$(((10#$current_hour + 1) % 24))
+        target_minute=$((1 + RANDOM % 5))
     fi
-    
+
+    target_total_seconds=$((target_hour * 3600 + target_minute * 60))
+
+    # If target is in the past or next day (past midnight)
+    if [ $target_total_seconds -le $current_total_seconds ]; then
+        target_total_seconds=$((target_total_seconds + 86400))
+    fi
+
     # Calculate wait time
     wait_seconds=$((target_total_seconds - current_total_seconds))
-    
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] Waiting $wait_seconds seconds until next run at ${next_hour}:01..."
+
+    printf "[$(date +'%Y-%m-%d %H:%M:%S')] Waiting %d seconds until next run at %02d:%02d...\n" $wait_seconds $target_hour $target_minute
     sleep $wait_seconds
 done
